@@ -1,0 +1,81 @@
+def job_scheduling():
+    n = int(input("\nEnter number of jobs: "))
+    jobs = []
+
+    for i in range(n):
+        job_id = input("Enter Job ID: ")
+        deadline = int(input("Enter Deadline: "))
+        profit = int(input("Enter Profit: "))
+        jobs.append((job_id, deadline, profit))
+
+    jobs.sort(key=lambda x: x[2], reverse=True)
+
+    max_deadline = max(job[1] for job in jobs)
+
+    slots = [False] * (max_deadline + 1)
+    result = [None] * (max_deadline + 1)
+
+    total_profit = 0
+
+    for job_id, deadline, profit in jobs:
+        for t in range(deadline, 0, -1):
+            if not slots[t]:
+                slots[t] = True
+                result[t] = job_id
+                total_profit += profit
+                break
+
+    print("\nScheduled Jobs:")
+
+    for job in result:
+        if job is not None:
+            print(job, end=" ")
+
+    print("\nTotal Profit:", total_profit)
+
+
+def selection_sort():
+    n = int(input("\nEnter length of list: "))
+
+    arr = []
+
+    for i in range(n):
+        element = int(input("Enter element: "))
+        arr.append(element)
+
+    print("\nList before sorting:", arr)
+
+    for i in range(n):
+        min_idx = i
+
+        for j in range(i + 1, n):
+            if arr[j] < arr[min_idx]:
+                min_idx = j
+
+        arr[i], arr[min_idx] = arr[min_idx], arr[i]
+
+        print("After Pass", i + 1, ":", arr)
+
+    print("\nSorted List:", arr)
+
+
+while True:
+    print("\n----- GREEDY ALGORITHMS -----")
+    print("1. Job Scheduling")
+    print("2. Selection Sort")
+    print("3. Exit")
+
+    choice = int(input("\nEnter your choice: "))
+
+    if choice == 1:
+        job_scheduling()
+
+    elif choice == 2:
+        selection_sort()
+
+    elif choice == 3:
+        print("\nProgram Ended")
+        break
+
+    else:
+        print("\nInvalid Choice")
