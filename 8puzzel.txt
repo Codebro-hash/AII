@@ -1,0 +1,98 @@
+import heapq
+
+# Goal State
+goal = [[1,2,3],
+        [4,5,6],
+        [7,8,0]]
+
+# Heuristic Function (Manhattan Distance)
+def heuristic(state):
+
+    h = 0
+
+    for i in range(3):
+        for j in range(3):
+
+            if state[i][j] != 0:
+
+                x = (state[i][j] - 1) // 3
+                y = (state[i][j] - 1) % 3
+
+                h += abs(x - i) + abs(y - j)
+
+    return h
+
+# A* Algorithm
+def astar(start):
+
+    pq = []
+
+    # (f(n), g(n), state)
+    heapq.heappush(pq, (heuristic(start), 0, start))
+
+    visited = []
+
+    while pq:
+
+        f, g, state = heapq.heappop(pq)
+
+        print("\nCurrent State:")
+
+        for row in state:
+            print(row)
+
+        # Goal Check
+        if state == goal:
+
+            print("\nGoal Reached")
+            return
+
+        visited.append(state)
+
+        # Find blank space
+        for i in range(3):
+            for j in range(3):
+
+                if state[i][j] == 0:
+                    x, y = i, j
+
+        # Possible moves
+        moves = [(-1,0),(1,0),(0,-1),(0,1)]
+
+        for dx, dy in moves:
+
+            nx = x + dx
+            ny = y + dy
+
+            # Check boundaries
+            if 0 <= nx < 3 and 0 <= ny < 3:
+
+                new_state = [row[:] for row in state]
+
+                # Swap tiles
+                new_state[x][y], new_state[nx][ny] = \
+                new_state[nx][ny], new_state[x][y]
+
+                if new_state not in visited:
+
+                    g_new = g + 1
+                    h_new = heuristic(new_state)
+
+                    f_new = g_new + h_new
+
+                    heapq.heappush(
+                        pq,
+                        (f_new, g_new, new_state)
+                    )
+
+# Input Puzzle
+print("Enter Initial Puzzle State:")
+
+start = []
+
+for i in range(3):
+    row = list(map(int, input().split()))
+    start.append(row)
+
+# Run A* Algorithm
+astar(start)
