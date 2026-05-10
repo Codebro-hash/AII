@@ -1,0 +1,71 @@
+import heapq
+
+# Heuristic Function
+# Counts number of attacking queen pairs
+def heuristic(board):
+
+    h = 0
+    n = len(board)
+
+    for i in range(n):
+        for j in range(i + 1, n):
+
+            # Same column
+            if board[i] == board[j]:
+                h += 1
+
+            # Same diagonal
+            elif abs(board[i] - board[j]) == abs(i - j):
+                h += 1
+
+    return h
+
+# A* Algorithm
+def astar(n):
+
+    # Initial empty board
+    start = [-1] * n
+
+    pq = []
+
+    # (heuristic, row, board)
+    heapq.heappush(pq, (0, 0, start))
+
+    while pq:
+
+        h, row, board = heapq.heappop(pq)
+
+        # Goal check
+        if row == n:
+
+            print("\nSolution Found:\n")
+
+            for i in range(n):
+                for j in range(n):
+
+                    if board[i] == j:
+                        print("Q", end=" ")
+                    else:
+                        print(".", end=" ")
+
+                print()
+
+            return
+
+        # Try placing queen in each column
+        for col in range(n):
+
+            new_board = board[:]
+            new_board[row] = col
+
+            h_new = heuristic(new_board)
+
+            heapq.heappush(
+                pq,
+                (h_new, row + 1, new_board)
+            )
+
+# Input
+n = int(input("Enter value of N: "))
+
+astar(n)

@@ -1,0 +1,39 @@
+def calculate_score(attendance, tasks, teamwork):
+    w1, w2, w3 = 0.3, 0.5, 0.2
+
+    teamwork = teamwork * 10
+
+    score = (attendance * w1) + (tasks * w2) + (teamwork * w3)
+    return score
+
+
+def evaluate_performance(score):
+    if score >= 85:
+        return "Excellent", "Eligible for promotion"
+    elif score >= 70:
+        return "Good ", "Performing well"
+    elif score >= 50:
+        return "Average", "Needs improvement"
+    else:
+        return "Poor", "Requires training"
+
+
+def expert_system():
+    print("=== Smart Employee Evaluation System ===\n")
+
+    name = input("Enter Employee Name: ")
+    attendance = float(input("Attendance (%): "))
+    tasks = float(input("Task Completion (%): "))
+    teamwork = float(input("Teamwork (1-10): "))
+
+    score = calculate_score(attendance, tasks, teamwork)
+    performance, remark = evaluate_performance(score)
+
+    print("\n--- Evaluation Report ---")
+    print(f"Employee Name   : {name}")
+    print(f"Final Score     : {round(score, 2)}")
+    print(f"Performance     : {performance}")
+    print(f"Remark          : {remark}")
+
+
+expert_system()

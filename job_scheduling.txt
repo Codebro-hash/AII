@@ -1,0 +1,65 @@
+def job_scheduling(jobs):
+    # jobs: list of (id, deadline, profit)
+    
+    # Step 1: Sort by profit descending
+    jobs.sort(key=lambda x: x[2], reverse=True)
+    
+    # Step 2: Find max deadline
+    max_deadline = max(job[1] for job in jobs)
+    
+    # Step 3: Create time slots
+    slots = [False] * (max_deadline + 1)
+    result = [None] * (max_deadline + 1)
+    
+    total_profit = 0
+    
+    # Step 4: Assign jobs
+    for job_id, deadline, profit in jobs:
+        for t in range(deadline, 0, -1):
+            if not slots[t]:
+                slots[t] = True
+                result[t] = job_id
+                total_profit += profit
+                break
+    
+    scheduled_jobs = [job for job in result if job is not None]
+    
+    return scheduled_jobs, total_profit
+
+n = int(input("Enter number of jobs: "))
+jobs = []
+
+for i in range(n):
+    job_id = input(f"Enter Job ID for job {i+1}: ")
+    deadline = int(input(f"Enter deadline for {job_id}: "))
+    profit = int(input(f"Enter profit for {job_id}: "))
+    
+    jobs.append((job_id, deadline, profit))
+
+# Run algorithm
+scheduled_jobs, total_profit = job_scheduling(jobs)
+
+# Output result
+print("\nScheduled Jobs:", scheduled_jobs)
+print("Total Profit:", total_profit)
+
+
+
+def selection_sort_greedy(arr):
+    n = len(arr)
+    print("\nList before Sorting: ", arr,"\n")
+    for i in range(n):
+        min_idx = i
+        for j in range(i+1, n):
+            if arr[j] < arr[min_idx]:
+                min_idx = j
+        arr[i], arr[min_idx] = arr[min_idx], arr[i]
+        print("List After Pass ",i+1,": ",arr)
+    return arr
+
+n=int(input("Length of List: "))
+arr=[]
+for i in range(n):
+    element=int(input("Enter List Element: "))
+    arr.append(element)
+print("\nSorted List is:", selection_sort_greedy(arr))

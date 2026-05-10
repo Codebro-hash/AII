@@ -1,0 +1,81 @@
+import random
+
+def greet_user():
+    name = input("Chatbot: Hello! What's your name? \nYou: ")
+    print(f"Chatbot: Nice to meet you, {name}! How can I assist you today?\n")
+    return name
+
+
+def get_response(user):
+    user = user.lower()
+
+    responses = {
+        "greeting": [
+            "Hello! How can I help you?",
+            "Hi there! What can I do for you?",
+        ],
+        "order": [
+            "You can track your order in the 'My Orders' section.",
+            "Your order details are available in your account dashboard."
+        ],
+        "payment": [
+            "Please verify your payment details or try again.",
+            "Payment failed? You can retry or use another method."
+        ],
+        "refund": [
+            "Refunds are processed within 5-7 working days."
+            
+        ],
+        "delivery": [
+            "Delivery usually takes 3-5 business days.",
+            "Your order will arrive soon. Stay tuned!"
+        ],
+        "thanks": [
+            "You're welcome!",
+            "Happy to help!"
+        ],
+        "fallback": [
+            "Sorry, I didn't understand that.",
+            "Can you please rephrase your question?"
+        ]
+    }
+
+    if any(word in user for word in ["hi", "hello", "hey"]):
+        return random.choice(responses["greeting"])
+
+    elif any(word in user for word in ["order", "track"]):
+        return random.choice(responses["order"])
+
+    elif any(word in user for word in ["payment", "pay"]):
+        return random.choice(responses["payment"])
+
+    elif any(word in user for word in ["refund", "return"]):
+        return random.choice(responses["refund"])
+
+    elif any(word in user for word in ["delivery", "ship"]):
+        return random.choice(responses["delivery"])
+
+    elif any(word in user for word in ["thanks", "thank you"]):
+        return random.choice(responses["thanks"])
+
+    else:
+        return random.choice(responses["fallback"])
+
+
+def chatbot():
+    name = greet_user()
+
+    print("Chatbot: Type 'bye' to exit.\n")
+
+    while True:
+        user = input(f"{name}: ")
+
+        if user.lower() == "bye":
+            print(f"Chatbot: Goodbye {name}! Have a great day ")
+            break
+
+        response = get_response(user)
+        print("Chatbot:", response)
+
+
+chatbot()
