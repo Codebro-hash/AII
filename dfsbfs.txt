@@ -1,0 +1,62 @@
+graph = {}
+
+n = int(input("Enter number of nodes: "))
+
+for i in range(n):
+
+    node = input("\nEnter node: ")
+
+    neighbours = input("Enter neighbours separated by space: ").split()
+
+    graph[node] = neighbours
+
+
+visited_dfs = set()
+
+def dfs(node):
+
+    if node not in visited_dfs:
+
+        print(node, end=" ")
+
+        visited_dfs.add(node)
+
+        for neighbour in graph[node]:
+
+            dfs(neighbour)
+
+
+visited_bfs = []
+
+queue = []
+
+def bfs(node):
+
+    visited_bfs.append(node)
+
+    queue.append(node)
+
+    while queue:
+
+        s = queue.pop(0)
+
+        print(s, end=" ")
+
+        for neighbour in graph[s]:
+
+            if neighbour not in visited_bfs:
+
+                visited_bfs.append(neighbour)
+
+                queue.append(neighbour)
+
+
+start = input("\nEnter starting node: ")
+
+print("\nDFS Traversal:")
+
+dfs(start)
+
+print("\nBFS Traversal:")
+
+bfs(start)
